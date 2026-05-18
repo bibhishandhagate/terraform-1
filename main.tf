@@ -1,3 +1,13 @@
+locals {
+  common_tags = {
+    Environment = "dev"
+    Project     = "terraform-project"
+    ManagedBy   = "Terraform"
+    Owner       = "Bibhishan"
+  }
+}
+
+
 resource "aws_vpc" "myvpc" {
   cidr_block = var.cidr
   tags = {
@@ -78,7 +88,7 @@ resource "aws_security_group" "mysg" {
 
 resource "aws_instance" "myinstance1" {
   ami                    = var.instance_ami
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.mysg.id]
   subnet_id              = aws_subnet.sub1.id
   key_name               = var.key_name
@@ -91,7 +101,7 @@ resource "aws_instance" "myinstance1" {
 
 resource "aws_instance" "myinstance2" {
   ami                    = var.instance_ami
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.mysg.id]
   subnet_id              = aws_subnet.sub2.id
   key_name               = var.key_name
