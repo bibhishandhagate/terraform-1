@@ -1,5 +1,5 @@
 resource "aws_vpc" "myvpc" {
-  cidr_block = "192.168.0.0/16"
+  cidr_block = var.cidr
   tags = {
     Name = "myvpc"
   }
@@ -77,11 +77,11 @@ resource "aws_security_group" "mysg" {
 }
 
 resource "aws_instance" "myinstance1" {
-  ami                    = "ami-07a00cf47dbbc844c"
+  ami                    = var.instance_ami
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.mysg.id]
   subnet_id              = aws_subnet.sub1.id
-  key_name               = "4PMBATCH"
+  key_name               = var.key_name
   user_data              = file("userdata.sh")
 
   tags = {
@@ -90,11 +90,11 @@ resource "aws_instance" "myinstance1" {
 }
 
 resource "aws_instance" "myinstance2" {
-  ami                    = "ami-07a00cf47dbbc844c"
+  ami                    = var.instance_ami
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.mysg.id]
   subnet_id              = aws_subnet.sub2.id
-  key_name               = "4PMBATCH"
+  key_name               = var.key_name
   user_data              = file("userdata1.sh")
   tags = {
     Name = "dev-server2"
